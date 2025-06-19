@@ -1,0 +1,14 @@
+D:\repository\DirectXEngine\src\engine\camera.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\camera.obj
+D:\repository\DirectXEngine\src\engine\engine.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\engine.obj
+D:\repository\DirectXEngine\src\engine\mesh.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\mesh.obj
+D:\repository\DirectXEngine\src\engine\pipeline.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\pipeline.obj
+D:\repository\DirectXEngine\src\engine\shader.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\shader.obj
+D:\repository\DirectXEngine\src\engine\texture.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\texture.obj
+D:\repository\DirectXEngine\src\engine\util\mat4x4.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\mat4x4.obj
+D:\repository\DirectXEngine\src\engine\util\math.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\math.obj
+D:\repository\DirectXEngine\src\engine\util\util.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\util.obj
+D:\repository\DirectXEngine\src\engine\util\vec2.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\vec2.obj
+D:\repository\DirectXEngine\src\engine\util\vec3.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\vec3.obj
+D:\repository\DirectXEngine\src\engine\util\vec4.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\vec4.obj
+D:\repository\DirectXEngine\src\game.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\game.obj
+D:\repository\DirectXEngine\src\main.cpp;D:\repository\DirectXEngine\DirectXEngine\x64\Release\main.obj
