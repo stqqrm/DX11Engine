@@ -68,89 +68,18 @@ void Game::OnInit(void) {
     Pipeline::SetPixelShader(ps);
     Pipeline::SetInputLayout(inputLayout);
 
-    bool err;
-    err = cube.Load("src\\engine\\models\\cube.obj");
-    
-    float halfSize = 10.0f;
-    // Create vertices for a triangle
-    std::vector<Vertex> vertices = {
-        // Front face (red)
-        { glm::vec3(-halfSize, -halfSize, halfSize), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
-        { glm::vec3(halfSize, -halfSize, halfSize), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
-        { glm::vec3(halfSize, halfSize, halfSize), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
-        { glm::vec3(-halfSize, halfSize, halfSize), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f), glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) },
-
-        // Back face (green)
-        { glm::vec3(-halfSize, -halfSize, -halfSize), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 0.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f) },
-        { glm::vec3(halfSize, -halfSize, -halfSize), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 0.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f) },
-        { glm::vec3(halfSize, halfSize, -halfSize), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f) },
-        { glm::vec3(-halfSize, halfSize, -halfSize), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 1.0f, 0.0f, 1.0f) },
-
-        // Top face (blue)
-        { glm::vec3(-halfSize, halfSize, halfSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f) },
-        { glm::vec3(halfSize, halfSize, halfSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f) },
-        { glm::vec3(halfSize, halfSize, -halfSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f) },
-        { glm::vec3(-halfSize, halfSize, -halfSize), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec4(0.0f, 0.0f, 1.0f, 1.0f) },
-
-        // Bottom face (yellow)
-        { glm::vec3(-halfSize, -halfSize, halfSize), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f) },
-        { glm::vec3(halfSize, -halfSize, halfSize), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f) },
-        { glm::vec3(halfSize, -halfSize, -halfSize), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f) },
-        { glm::vec3(-halfSize, -halfSize, -halfSize), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec4(1.0f, 1.0f, 0.0f, 1.0f) },
-
-        // Right face (cyan)
-        { glm::vec3(halfSize, -halfSize, halfSize), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec4(0.0f, 1.0f, 1.0f, 1.0f) },
-        { glm::vec3(halfSize, -halfSize, -halfSize), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec4(0.0f, 1.0f, 1.0f, 1.0f) },
-        { glm::vec3(halfSize, halfSize, -halfSize), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec4(0.0f, 1.0f, 1.0f, 1.0f) },
-        { glm::vec3(halfSize, halfSize, halfSize), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(0.0f, 1.0f, 1.0f, 1.0f) },
-
-        // Left face (magenta)
-        { glm::vec3(-halfSize, -halfSize, halfSize), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f) },
-        { glm::vec3(-halfSize, -halfSize, -halfSize), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f) },
-        { glm::vec3(-halfSize, halfSize, -halfSize), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f) },
-        { glm::vec3(-halfSize, halfSize, halfSize), glm::vec3(-1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f) }
-    };
-
-    std::vector<Index> indices = {
-        // Front face
-        0, 1, 2,
-        2, 3, 0,
-
-        // Back face
-        4, 5, 6,
-        6, 7, 4,
-
-        // Top face
-        8, 9, 10,
-        10, 11, 8,
-
-        // Bottom face
-        12, 13, 14,
-        14, 15, 12,
-
-        // Right face
-        16, 17, 18,
-        18, 19, 16,
-
-        // Left face
-        20, 21, 22,
-        22, 23, 20
-    };
-    indexCount = indices.size();
-
-    vbuffer = Pipeline::CreateVertexBuffer(vertices);
-    ibuffer = Pipeline::CreateIndexBuffer(indices);
-    
-    //std::cin.get();
+    cube.Load("src\\engine\\models\\cube.obj");
 }
 
 void Game::OnUpdate(void) {
     static Camera& cam = GetCamera();
     float speed = 20.0f;
-    float rotSpeed = 500.0f;
+    float rotSpeed = 200.0f;
     float delta = (float)glfwGetTime();
     glfwSetTime(0.0f);
-    //printf("%f\n", delta);
+
+    std::string fps = "fps " + std::to_string(1000.f / delta);
+    glfwSetWindowTitle(m_window, fps.c_str());
 
     if (glfwGetKey(m_window, GLFW_KEY_ESCAPE)) {
         this->~Game();
@@ -164,7 +93,7 @@ void Game::OnUpdate(void) {
     // Camera rotation (Mouse)
     if (delta_x || delta_y) {
         cam.RotateRelative({ rotSpeed * delta * delta_y, rotSpeed * delta * delta_x, 0.0f });
-        //printf("%f, %f\n", delta_x, delta_y);
+        printf("pitch %f yaw %f\n", delta_y, delta_x);
         delta_x = 0.0f, delta_y = 0.0f;
     }
 
@@ -212,7 +141,7 @@ void Game::OnUpdate(void) {
 
 void Game::OnRender(void) {
     static Camera& cam = GetCamera();
-    Engine::Clear(0.5f, 0.5f, 0.5f);
+    Engine::Clear(0.5f, 0.6f, 0.5f);
 
     MatrixBuffer buffer{
         glm::transpose(glm::identity<glm::mat4x4>()),
@@ -222,7 +151,6 @@ void Game::OnRender(void) {
 
     Pipeline::UpdateConstantBuffer(cb, buffer, 0);
 
-    Pipeline::DrawMesh(vbuffer, ibuffer, indexCount);
     Engine::DrawMesh(cube);
     
     Engine::Present(false);
@@ -249,7 +177,7 @@ void Game::ConfineCursor(void) {
     GetCursorPos(&p);
     RECT wr;
     GetWindowRect(hWnd, &wr);
-    int newx = wr.left + (cr.right / 2);
+    int newx = wr.left + (cr.right / 2) + 1;
     int newy = wr.top + (cr.bottom / 2);
     SetCursorPos(newx, newy);
     delta_x -= p.x - newx;
@@ -269,15 +197,12 @@ void Game::KeyCallback(GLFWwindow* window, int key, int scancode, int action, in
 void Game::MouseCallback(GLFWwindow* window, double xpos, double ypos) {
     Game* game = static_cast<Game*>(glfwGetWindowUserPointer(window));
 
-    // Static variables to store the last mouse position (persists between calls)
     static double lastX = xpos;
     static double lastY = ypos;
 
-    // Calculate delta movement (current - last)
-    game->delta_x += lastX - xpos;  // Horizontal delta
-    game->delta_y += lastY - ypos;  // Vertical delta (inverted for natural movement)
+    game->delta_x += lastX - xpos;
+    game->delta_y += ypos - lastY;
 
-    // Update last position for next frame
     lastX = xpos;
     lastY = ypos;
 }

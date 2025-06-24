@@ -1,6 +1,7 @@
 #include "game.hpp"
 
-//int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline, int iCmdshow) {
+//#define main(null) WinMain(HINSTANCE, HINSTANCE, PSTR, int)
+
 int main() {
     Game game;
     return game.Run();

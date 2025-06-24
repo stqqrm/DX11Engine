@@ -55,7 +55,7 @@ void Camera::Update(void) {
 
     float pitchRad = glm::radians(m_rotation.x);
     float yawRad = glm::radians(m_rotation.y);
-
+    
     m_forward.x = cos(yawRad);
     m_forward.y = sin(yawRad);
     m_forward.z = tan(pitchRad);
