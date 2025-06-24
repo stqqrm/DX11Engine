@@ -6,6 +6,9 @@ public:
 	Texture() = default;
 	~Texture() = default;
 	bool Load(const fs::path& path);
-private:
-	wrl::ComPtr<ID3D11ShaderResourceView> tex;
+	public:
+	int m_width;
+	int m_height;
+	int m_numChannels;
+	std::vector<unsigned char> m_data;
 };

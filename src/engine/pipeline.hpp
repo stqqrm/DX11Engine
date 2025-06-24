@@ -1,6 +1,11 @@
 #pragma once
 #include "inc.h"
 
+#include "camera.hpp"
+#include "mesh.hpp"
+#include "texture.hpp"
+#include "shader.hpp"
+
 class Pipeline {
 public:
     Pipeline() = default;
@@ -11,7 +16,7 @@ public:
     wrl::ComPtr<ID3D11Buffer> CreateIndexBuffer(const std::vector<Index>& indices);
     template <typename _Buffer>
     wrl::ComPtr<ID3D11Buffer> CreateConstantBuffer();
-
+    wrl::ComPtr<ID3D11ShaderResourceView> CreateTexture(const Texture& tex);
     std::tuple<wrl::ComPtr<ID3D11VertexShader>, wrl::ComPtr<ID3D11InputLayout>> CompileVertexShader(const fs::path& filePath, const std::string& entryPoint);
     wrl::ComPtr<ID3D11PixelShader> CompilePixelShader(const fs::path& filePath, const std::string& entryPoint);
     

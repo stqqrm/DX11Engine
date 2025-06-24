@@ -57,6 +57,59 @@ wrl::ComPtr<ID3D11Buffer> Pipeline::CreateIndexBuffer(const std::vector<Index>& 
     return indexBuffer;
 }
 
+wrl::ComPtr<ID3D11ShaderResourceView> Pipeline::CreateTexture(const Texture& tex) {
+    if (!m_device) {
+        throw std::invalid_argument("Device cannot be null");
+    }
+    if (tex.m_data.empty()) {
+        throw std::invalid_argument("Texture data is empty");
+    }
+
+    // Choose an appropriate format based on the number of channels in m_data
+    DXGI_FORMAT format = DXGI_FORMAT_UNKNOWN;
+    switch (tex.m_numChannels) {
+    case 1: format = DXGI_FORMAT_R8_UNORM; break;  // Grayscale
+    case 3: format = DXGI_FORMAT_R8G8B8A8_UNORM; break;  // RGB
+    case 4: format = DXGI_FORMAT_R8G8B8A8_UNORM; break;  // RGBA
+    default: throw std::invalid_argument("Unsupported number of channels");
+    }
+
+    // Describe the texture resource
+    D3D11_TEXTURE2D_DESC texDesc = {};
+    texDesc.Width = tex.m_width;
+    texDesc.Height = tex.m_height;
+    texDesc.MipLevels = 1;
+    texDesc.ArraySize = 1;
+    texDesc.Format = format;
+    texDesc.SampleDesc.Count = 1;
+    texDesc.Usage = D3D11_USAGE_DEFAULT;
+    texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+    texDesc.CPUAccessFlags = 0;
+    texDesc.MiscFlags = 0;
+
+    // Define the subresource data
+    D3D11_SUBRESOURCE_DATA initData = {};
+    initData.pSysMem = tex.m_data.data();
+    initData.SysMemPitch = tex.m_width * tex.m_numChannels;
+    initData.SysMemSlicePitch = tex.m_width * tex.m_height * tex.m_numChannels;
+
+    // Create the texture
+    wrl::ComPtr<ID3D11Texture2D> texture;
+    HRESULT hr = m_device->CreateTexture2D(&texDesc, &initData, texture.GetAddressOf());
+    if (FAILED(hr)) {
+        throw std::runtime_error("Failed to create texture");
+    }
+
+    // Create a shader resource view
+    wrl::ComPtr<ID3D11ShaderResourceView> srv;
+    hr = m_device->CreateShaderResourceView(texture.Get(), nullptr, srv.GetAddressOf());
+    if (FAILED(hr)) {
+        throw std::runtime_error("Failed to create shader resource view");
+    }
+
+    return srv;
+}
+
 std::tuple<wrl::ComPtr<ID3D11VertexShader>, wrl::ComPtr<ID3D11InputLayout>>
 Pipeline::CompileVertexShader(const fs::path& filePath, const std::string& entryPoint) {
     return CompileShader<ID3D11VertexShader>(filePath, entryPoint, "vs_5_0");

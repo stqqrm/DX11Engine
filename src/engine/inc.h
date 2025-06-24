@@ -8,6 +8,7 @@
 #include <d3d11.h>
 #include <dxgi.h>
 #include <d3dcompiler.h>
+#include <DirectXMath.h>
 #include <wrl/client.h>
 
 #pragma comment(lib, "d3d11.lib")
@@ -19,10 +20,6 @@
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 #pragma comment(lib, "glfw3.lib")
-
-#include "camera.hpp"
-#include "mesh.hpp"
-#include "shader.hpp"
 
 namespace fs = std::filesystem;
 namespace wrl = Microsoft::WRL;

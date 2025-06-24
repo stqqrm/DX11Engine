@@ -48,19 +48,22 @@ struct MatrixBuffer {
     glm::mat4x4 world;
     glm::mat4x4 view;
     glm::mat4x4 proj;
+    glm::vec3 lightDir;
+    float padding;
     //mat4x4 worldInvTranspose;
 };
 
 wrl::ComPtr<ID3D11Buffer> cb;
 wrl::ComPtr<ID3D11Buffer> vbuffer;
 wrl::ComPtr<ID3D11Buffer> ibuffer;
+wrl::ComPtr<ID3D11ShaderResourceView> srv;
 unsigned int indexCount;
 
 void Game::OnInit(void) {
     auto tupleVs = Pipeline::CompileVertexShader("src\\engine\\shaders\\shader.hlsl", "VS_Main");
     auto ps = Pipeline::CompilePixelShader("src\\engine\\shaders\\shader.hlsl", "PS_Main");
     cb = Pipeline::CreateConstantBuffer<MatrixBuffer>();
-
+    
     auto vs = std::get<wrl::ComPtr<ID3D11VertexShader>>(tupleVs);
     auto inputLayout = std::get<wrl::ComPtr<ID3D11InputLayout>>(tupleVs);
 
@@ -69,6 +72,20 @@ void Game::OnInit(void) {
     Pipeline::SetInputLayout(inputLayout);
 
     cube.Load("src\\engine\\models\\cube.obj");
+
+    bool b = tex.Load("src\\engine\\texture\\tex.jpg");
+    if (!b) {
+        throw std::runtime_error("Failed to load texture");
+    }
+    std::cout << "Texture loaded\n";
+    std::cout << "w=" << tex.m_width << " h=" << tex.m_height << std::endl;
+       
+    return;
+    srv = CreateTexture(tex);
+    std::cout << "Texture created\n";
+
+    Pipeline::SetTexture(srv);
+    std::cout << "Texture set\n";
 }
 
 void Game::OnUpdate(void) {
@@ -146,7 +163,8 @@ void Game::OnRender(void) {
     MatrixBuffer buffer{
         glm::transpose(glm::identity<glm::mat4x4>()),
         glm::transpose(cam.GetViewMatrix()),
-        glm::transpose(cam.GetProjectionMatrix())
+        glm::transpose(cam.GetProjectionMatrix()),
+        glm::vec3(0.0f, 0.50f, -1.0f), 0.0f
     };
 
     Pipeline::UpdateConstantBuffer(cb, buffer, 0);

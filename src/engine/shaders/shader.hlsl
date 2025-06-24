@@ -16,6 +16,8 @@ cbuffer cb : register(b0) {
     matrix world;
     matrix view;
     matrix proj;
+    float3 lightDir;
+    float padding;
 };
 
 PS_Input VS_Main(VS_Input input) {
@@ -27,9 +29,8 @@ PS_Input VS_Main(VS_Input input) {
     return output;
 }
 
-// --- Pixel Shader ---
 float4 PS_Main(PS_Input input) : SV_TARGET {
-    float3 lightDir = normalize(float3(0.5, -1.0, 0.5));
-    float diffuse = max(0.2, dot(-lightDir, -normalize(input.normal)));
+    float3 ld = normalize(lightDir);
+    float diffuse = max(0.2, dot(-ld, -normalize(input.normal)));
     return input.color * diffuse;
 }

@@ -17,5 +17,6 @@ public:
     static void MouseCallback(GLFWwindow* window, double xpos, double ypos);
     GLFWwindow* m_window;
     Mesh cube;
+    Texture tex;
     float delta_x, delta_y;
 };
