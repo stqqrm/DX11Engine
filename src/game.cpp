@@ -60,8 +60,8 @@ wrl::ComPtr<ID3D11ShaderResourceView> srv;
 unsigned int indexCount;
 
 void Game::OnInit(void) {
-    auto tupleVs = Pipeline::CompileVertexShader("src\\engine\\shaders\\shader.hlsl", "VS_Main");
-    auto ps = Pipeline::CompilePixelShader("src\\engine\\shaders\\shader.hlsl", "PS_Main");
+    auto tupleVs = Pipeline::CompileVertexShader("shaders\\shader.hlsl", "VS_Main");
+    auto ps = Pipeline::CompilePixelShader("shaders\\shader.hlsl", "PS_Main");
     cb = Pipeline::CreateConstantBuffer<MatrixBuffer>();
     
     auto vs = std::get<wrl::ComPtr<ID3D11VertexShader>>(tupleVs);
@@ -71,9 +71,9 @@ void Game::OnInit(void) {
     Pipeline::SetPixelShader(ps);
     Pipeline::SetInputLayout(inputLayout);
 
-    cube.Load("src\\engine\\models\\cube.obj");
+    cube.Load("models\\cube.obj");
 
-    bool b = tex.Load("src\\engine\\texture\\tex.jpg");
+    bool b = tex.Load("texture\\tex.jpg");
     if (!b) {
         throw std::runtime_error("Failed to load texture");
     }
